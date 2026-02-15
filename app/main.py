@@ -9,6 +9,11 @@ app = FastAPI(title='Mini Resume Collector Application')
 app.include_router(candidate_router)
 
 
+@app.get("/")
+def home():
+    return {"message": " Welcome to the Mini Resume Collector API! Visit /docs for Swagger UI."}
+
+
 #Health Check Endpoint
 @app.get('/health', tags=['Health'])
 def health_check():
