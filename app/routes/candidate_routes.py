@@ -5,7 +5,8 @@ from app.schemas.candidate import CandidateResponse, CandidateCreate
 from app.services.candidate_service import (
     create_candidate_service,
     list_candidates_service,
-    get_candidate_service
+    get_candidate_service,
+    delete_candidate_service
 )
 
 
@@ -52,3 +53,9 @@ def list_candidates(
 @router.get("/{candidate_id}", response_model=CandidateResponse)
 def get_candidate(candidate_id: int):
     return get_candidate_service(candidate_id)
+
+
+#Delete Candidate
+@router.delete("/{candidate_id}")
+async def delete_candidate(candidate_id: int):
+    return delete_candidate_service(candidate_id)

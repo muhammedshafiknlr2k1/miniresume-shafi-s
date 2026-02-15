@@ -68,3 +68,10 @@ def get_candidate_service(candidate_id: int) -> CandidateResponse:
     if not candidate:
         raise HTTPException(status_code=404, detail="Candidate not found")
     return CandidateResponse(**candidate)
+
+
+def delete_candidate_service(candidate_id: int):
+    if candidate_id not in candidates_db:
+        raise HTTPException(status_code=404, detail="Candidate not found")
+    del candidates_db[candidate_id]
+    return {"message": "Candidate deleted successfully"}
