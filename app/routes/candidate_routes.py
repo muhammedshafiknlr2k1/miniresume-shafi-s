@@ -4,7 +4,8 @@ from datetime import date
 from app.schemas.candidate import CandidateResponse, CandidateCreate
 from app.services.candidate_service import (
     create_candidate_service,
-    list_candidates_service
+    list_candidates_service,
+    get_candidate_service
 )
 
 
@@ -39,9 +40,15 @@ def create_candidate(
 
 #List Candidates Endpoint
 @router.get("", response_model=List[CandidateResponse])
-async def list_candidates(
+def list_candidates(
     skill: Optional[str] = Query(None),
     min_experience: Optional[float] = Query(None),
     graduation_year: Optional[int] = Query(None)
 ):
     return list_candidates_service(skill, min_experience, graduation_year)
+
+
+#Get Candidate By Id
+@router.get("/{candidate_id}", response_model=CandidateResponse)
+def get_candidate(candidate_id: int):
+    return get_candidate_service(candidate_id)

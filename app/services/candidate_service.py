@@ -61,3 +61,10 @@ def list_candidates_service(
         results.append(CandidateResponse(**candidate))
 
     return results
+
+
+def get_candidate_service(candidate_id: int) -> CandidateResponse:
+    candidate = candidates_db.get(candidate_id)
+    if not candidate:
+        raise HTTPException(status_code=404, detail="Candidate not found")
+    return CandidateResponse(**candidate)
