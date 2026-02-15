@@ -3,7 +3,8 @@ from typing import List, Optional
 from datetime import date
 from app.schemas.candidate import CandidateResponse, CandidateCreate
 from app.services.candidate_service import (
-    create_candidate_service
+    create_candidate_service,
+    list_candidates_service
 )
 
 
@@ -34,3 +35,13 @@ def create_candidate(
         skill_set=skill_set
     )
     return create_candidate_service(candidate, resume_file)
+
+
+#List Candidates Endpoint
+@router.get("", response_model=List[CandidateResponse])
+async def list_candidates(
+    skill: Optional[str] = Query(None),
+    min_experience: Optional[float] = Query(None),
+    graduation_year: Optional[int] = Query(None)
+):
+    return list_candidates_service(skill, min_experience, graduation_year)
