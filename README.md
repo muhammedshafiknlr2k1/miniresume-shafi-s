@@ -20,7 +20,7 @@ A simple **FastAPI-based app** to collect candidate resumes, store metadata in m
 ---
 ---
 ## Requirements
-- **Python** - 3.10+
+- **Python** - 3.12.6
 - **FastAPI** - Python Web framework for building APIs
 - **uvicorn** - ASGI server to run FastAPI app
 - **python-multipart** - Handle file uploads (Form + UploadFile)
@@ -90,8 +90,107 @@ Open your browser to test:
 
 ---
 ---
+
+## Example API Request & Response
+### Create Candidate
+- **method** - POST
+- **Endpoint** - /candidates
+- **Content-Type** - multipart/form-data
+
+**Example request using curl:**
+
+```bash
+curl -X 'POST' \
+  'http://127.0.0.1:8000/candidates' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: multipart/form-data' \
+  -F 'contact_number=9439439432' \
+  -F 'years_of_experience=1' \
+  -F 'resume_file=@Shafi_S_Resume.pdf;type=application/pdf' \
+  -F 'graduation_year=2025' \
+  -F 'skill_set=Python, Java, SQL' \
+  -F 'contact_address=Shafi Villa' \
+  -F 'dob=2026-02-16' \
+  -F 'education_qualification=MCA' \
+  -F 'full_name=Shafi S'
+```
+
+**Example Success Response**
+```json
+{
+  "id": 1,
+  "full_name": "Shafi S",
+  "dob": "2026-02-16",
+  "contact_number": "9439439432",
+  "contact_address": "Shafi Villa",
+  "education_qualification": "MCA",
+  "graduation_year": 2025,
+  "years_of_experience": 1,
+  "skill_set": [
+    "Python",
+    "Java",
+    "SQL"
+  ],
+  "resume_filename": "Shafi_S_Resume.pdf",
+  "resume_path": "uploads\\Shafi_S_Resume.pdf"
+}
+```
+### Get All Candidates
+- **method** - GET
+- **Endpoint** - /candidates
+
+**Example request using curl:**
+
+```bash
+curl -X 'GET' \
+  'http://127.0.0.1:8000/candidates' \
+  -H 'accept: application/json'
+```
+
+**Example Success Response**
+```json
+[
+  {
+    "id": 1,
+    "full_name": "Shafi S",
+    "dob": "2026-02-16",
+    "contact_number": "9439439432",
+    "contact_address": "Shafi Villa",
+    "education_qualification": "MCA",
+    "graduation_year": 2025,
+    "years_of_experience": 1,
+    "skill_set": [
+      "Python",
+      "Java",
+      "SQL"
+    ],
+    "resume_filename": "Shafi_S_Resume.pdf",
+    "resume_path": "uploads\\Shafi_S_Resume.pdf"
+  },
+  {
+    "id": 2,
+    "full_name": "Reshma",
+    "dob": "2025-02-16",
+    "contact_number": "9874565555",
+    "contact_address": "Reshma Bhavan",
+    "education_qualification": "BCA",
+    "graduation_year": 2023,
+    "years_of_experience": 2,
+    "skill_set": [
+      "Python",
+      "SQL"
+    ],
+    "resume_filename": "Ananthalekshmi.pdf",
+    "resume_path": "uploads\\Ananthalekshmi.pdf"
+  }
+]
+```
+
+---
+---
 ## Notes
 - Uploaded resumes are stored in `uploads` automatically.  
 - All data is **in-memory**, restarting the server clears all candidates.  
 - Followed **PEP8 standards** and **professional FastAPI structure**
 ---
+
